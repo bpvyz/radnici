@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, MetaData, Table, create_engine
 
-connection_string = 'postgresql://paunzz:PwnOrange1@aa14ovik0da3nng.cfeumv6xw9cy.eu-central-1.rds.amazonaws.com:5432/baza'
+connection_string = 'postgresql://USER:PASS@aa14ovik0da3nng.cfeumv6xw9cy.eu-central-1.rds.amazonaws.com:5432/baza'
 
 
 eng = create_engine(connection_string)
