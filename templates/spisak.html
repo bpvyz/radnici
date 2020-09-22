@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:position="http://www.w3.org/1999/xhtml">
+<style>
+
+/* Ripple effect */
+.ripple {
+  background-position: center;
+  transition: background 0.8s, color 0.8s;
+}
+.ripple:hover {
+  background: #000000 radial-gradient(circle, transparent 1%, #ffffff 1%) center/15000%;
+}
+.ripple:active {
+  background-color: #ffffff;
+  background-size: 100%;
+  transition: background 0.8s;
+}
+
+table {
+  font-family: arial, sans-serif;
+  table-layout:fixed;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  width:1px;
+  white-space:nowrap;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.btn {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 7px 28px;
+  font-size: 16px;
+  cursor: pointer;
+    border-radius: 12px;
+}
+
+.danger {
+    border-color: #800000;
+    color: #800000;
+    font-weight: bold;
+}
+
+
+.change {
+    border-color: #000f87;
+    color: #000f87;
+    font-weight: bold;
+}
+
+.add {
+    border-color: #004e02;
+    color: #004e02;
+    font-weight: bold;
+}
+.add:hover {
+    background: #004e02;
+    color: white;
+    font-weight: bold;
+}
+
+.change:hover {
+    background: #000f87;
+    color: white;
+    font-weight: bold;
+}
+
+
+.danger:hover {
+  background: #800000;
+  color: white;
+font-weight: bold;
+}
+
+a {
+  font-weight: bold;
+  color: black;
+  border: 2px solid black;
+  text-decoration: none;
+  padding: 4px 16px;
+  position: relative;
+  display: inline-block;
+  font-size: 28px;
+  border-radius: 12px;
+}
+
+a:hover {
+  background: #000000;
+  color: white;
+  font-weight: bold;
+}
+
+.previous {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+
+
+</style>
+
+<script>
+    function func1() {
+        var x = document.getElementById("change_button");
+        var y = document.getElementById("accept_button");
+        {
+        x.style.display = "none";
+        y.style.display = "block"
+        }
+}
+function func2() {
+        var x = document.getElementById("change_button");
+        var y = document.getElementById("accept_button");
+        {
+        x.style.display = "block";
+        y.style.display = "none"
+        }
+}
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{company}}</title>
+    <a style="display:inline-block"  href='/'>&#8249</a>
+    <h3 style="display:inline-block; position: relative; left: 10px;">NAZAD</h3>
+    <br>
+    <br>
+    <h1>
+        {{company}}
+    </h1>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>JMBG</th>
+            <th>IME I PREZIME</th>
+            <th>DATUM PRIJAVE</th>
+            <th>DATUM ISTEKA</th>
+        </tr>
+        {% for worker in workers %}
+        <tr>
+            <td>{{ worker.jmbg }}</td>
+            <td>{{ worker.full_name }}</td>
+            <td>{{ worker.contract_start_date.strftime('%d/%m/%Y')}}</td>
+            <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') }}</td>
+            <td id="buttons">
+
+                <form style="display:inline-block" action="{{url_for('actions', action='change', worker_jmbg=worker.jmbg)}}" method="POST">
+                <button onclick="func1('div_{{loop.index}}')" id="change_button" class="btn ripple change"> Izmeni </button>
+                </form>
+
+                <form style="display:inline-block;" action="{{url_for('actions', action='delete', worker_jmbg=worker.jmbg)}}" method="POST">
+                <button class="btn ripple danger" id="delete_button"> Obriši </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        <form id="worker_form" class="submit_worker" method="POST" action="{{url_for('new_worker')}}">
+            <tr>
+                <td><input type="text" id="jmbg" name="jmbg"><br></td>
+                <td><input type="text" id="full_name" name="full_name"><br></td>
+                <td><input type="text" id="start_date" name="start_date"><br></td>
+                <td><input type="text" id="termination_date" name="termination_date"><br></td>
+                <td style="text-align: center"><button class="btn add ripple" form="worker_form" type="submit" name="new_worker" value="new_worker">Dodaj novog radnika</button></td>
+            </tr>
+            <br>
+        </form>
+
+    </table>
+
+
+
+</body>
+</html>

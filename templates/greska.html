@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Greska</title>
+</head>
+<body>
+    <h1>{{error_code}}</h1>
+{% block javascript %}
+
+<script>
+     window.setTimeout(function(){
+
+       // Move to a new location or you can do something else
+       window.location.href = {{ redirect_route|tojson|safe }};
+
+       }, 1500);
+
+</script>
+{% endblock %}
+</body>
+</html>
