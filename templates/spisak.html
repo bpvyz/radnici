@@ -157,7 +157,7 @@ a:hover {
             <td>{{ worker.jmbg }}</td>
             <td>{{ worker.full_name }}</td>
             <td>{{ worker.contract_start_date.strftime('%d/%m/%Y')}}</td>
-            <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') }}</td>
+            <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None else "Neodređeno" }}</td>
             <td id="buttons">
 
                 <form style="display:inline-block" action="{{url_for('radnici.actions', action='change', worker_jmbg=worker.jmbg)}}" method="POST">
@@ -170,15 +170,7 @@ a:hover {
             </td>
         </tr>
         {% endfor %}
-
-    </table>
-    <table>
-        <tr>
-            <th>JMBG</th>
-            <th>IME I PREZIME</th>
-            <th>DATUM PRIJAVE</th>
-            <th>DATUM ISTEKA</th>
-        </tr>
+        <tfoot>
         <form id="worker_form" class="submit_worker" method="POST" action="{{url_for('radnici.new_worker')}}">
             <tr>
                 <td><input type="text" id="jmbg" name="jmbg"><br></td>
@@ -189,9 +181,8 @@ a:hover {
             </tr>
             <br>
         </form>
+        </tfoot>
     </table>
-
-
 
 
 </body>

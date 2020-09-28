@@ -38,7 +38,8 @@ def company():
                 else:
                     sess.commit()
                     companies = sess.query(Company).all()
-                    return render_template('index.html', dropdown_list=[[n.name, n.pib] for n in companies])
+                    flags = utils.get_flags(companies)
+                    return render_template('index.html', list=[[n.name, n.pib, flag] for (n, flag) in zip(companies, flags)])
             else:
                 rroute = '/'
                 err_code = 'Neispravni podaci firme!'
@@ -56,11 +57,9 @@ def open(pib=None, company_name=None):
         return render_template('spisak.html', company=company_name, workers=[worker for worker in workers])
 
     elif request.form['submit_button'] == 'delete':
-        session['company_name'] = company_name
-        session['pib'] = pib
 
         sess.query(Worker).filter(Worker.company_pib == pib).delete()
-        sess.query(Company).filter(Company.name == company_name).delete()
+        sess.query(Company).filter(Company.pib == pib).delete()
 
         sess.commit()
 
@@ -79,13 +78,16 @@ def new_worker():
             start_date = request.form.get('start_date')
             termination_date = request.form.get('termination_date')
 
-            if start_date and termination_date:
+            if start_date:
                 start_date_object = datetime.strptime(start_date, '%d/%m/%Y')
-                termination_date_object = datetime.strptime(termination_date, '%d/%m/%Y')
                 worker_start_date = start_date_object.strftime('%Y-%m-%d')
-                worker_termination_date = termination_date_object.strftime('%Y-%m-%d')
+                if termination_date:
+                    termination_date_object = datetime.strptime(termination_date, '%d/%m/%Y')
+                    worker_termination_date = termination_date_object.strftime('%Y-%m-%d')
+                else:
+                    worker_termination_date = None
 
-            if worker_full_name and worker_termination_date and worker_start_date and \
+            if worker_full_name and worker_start_date and \
                     re.match(r'\d{13}', worker_jmbg):
                 try:
                     new_worker = Worker(jmbg=worker_jmbg, full_name=worker_full_name,

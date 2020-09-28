@@ -17,7 +17,7 @@ class Worker(Base):
     jmbg = Column(String(13), primary_key=True)
     full_name = Column(String(50), nullable=False)
     contract_start_date = Column(Date)
-    contract_termination_date = Column(Date)
+    contract_termination_date = Column(Date, nullable=True)
     company_pib = Column(String(9), ForeignKey('companies.pib'), nullable=False)
     email_sent = Column(Boolean)
     company = relationship('Company', foreign_keys=[company_pib])

@@ -15,6 +15,11 @@
   transition: background 0.8s;
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 table {
   font-family: arial, sans-serif;
@@ -102,11 +107,14 @@ font-weight: bold;
         <tr>
             <th class="clickable">IME</th>
             <th class="clickable">PIB</th>
+            <th class="clickable"><img src="/static/hourglass.png" width="42" height="42" class="center"></th>
+
         </tr>
         {% for each in list %}
         <tr>
             <td>{{ each[0] }}</td>
             <td>{{ each[1] }}</td>
+            <td style="text-align: center; background: {{each[2][0]}}">{{each[2][1]}}</td>
             <td id="buttons">
                 <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1], company_name=each[0])}}" method="POST">
                 <button class="btn ripple add" type="submit" name="submit_button" value="open">Otvori</button>
@@ -115,28 +123,20 @@ font-weight: bold;
                 <button onclick="return confirm('Potvrdi brisanje firme! Ovo ce obrisati sve radnike firme!');" class="btn ripple danger" type="submit" name="submit_button" value="delete"> Obriši </button>
                 </form>
             </td>
-            <td style="text-align: center; background: {{each[2][0]}}">{{each[2][1]}}</td>
         </tr>
         {% endfor %}
-        </table>
-
-    <br>
-    <h3>
-        Dodaj novu firmu:
-    </h3>
-    <table>
-        <tr>
-            <th>IME</th>
-            <th>PIB</th>
-        </tr>
-        <form id="company_form" class="submit_company" method="POST" action="{{url_for('radnici.company')}}">
+            <tfoot>
+            <form id="company_form" class="submit_company" method="POST" action="{{url_for('radnici.company')}}">
             <tr>
                 <td><input type="text" id="company_name" name="company_name"><br></td>
                 <td><input type="text" id="company_pib" name="company_pib"><br></td>
+                <td></td>
                 <td style="text-align: center"> <button style="width:100%" class="btn ripple create" type="submit" name="submit_button" value="company">Dodaj</button></td>
             </tr>
             <br>
-        </form>
-    </table>
+            </form>
+            </tfoot>
+        </table>
+    <br>
 </body>
 </html>
