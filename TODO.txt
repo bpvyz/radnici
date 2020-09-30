@@ -1,0 +1,4 @@
+naslov maila:
+vreme {max 7 dana} - ime firme - radnik
+body maila:
+link prema firmi

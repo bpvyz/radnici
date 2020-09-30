@@ -111,26 +111,26 @@ a:hover {
 
 </style>
 
-<script type="text/javascript" src="{{ url_for('static', filename='sorttable.js') }}">
+<script defer type="text/javascript" src="{{ url_for('static', filename='js/sorttable.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
+<script>
 
-    function func1() {
-        var x = document.getElementById("change_button");
-        var y = document.getElementById("accept_button");
-        {
-        x.style.display = "none";
-        y.style.display = "block"
-        }
-}
-    function func2() {
-        var x = document.getElementById("change_button");
-        var y = document.getElementById("accept_button");
-        {
-        x.style.display = "block";
-        y.style.display = "none"
-        }
-}
+$(document).ready(function(){
+    $('[id*="change."]').click(function(){
+        let change_id = $(this).attr('id')
+        let index = change_id.split(".")[1];
+        let accept_id = '#accept.' + index
+		$(this).hide();
+		$(accept_id).show();
+        console.log(this);
+        console.log(change_id);
+        console.log(index);
+        console.log(accept_id);
+    });
+});
+
 </script>
 
 <head>
@@ -159,10 +159,17 @@ a:hover {
             <td>{{ worker.contract_start_date.strftime('%d/%m/%Y')}}</td>
             <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None else "Neodređeno" }}</td>
             <td id="buttons">
+                <div id="change.{{loop.index}}" style="display:inline-block">
+<!--                    <form action="{{url_for('radnici.actions', action='change', worker_jmbg=worker.jmbg)}}" method="POST">-->
+                    <button id="change_button" class="btn ripple change"> Izmeni </button>
+<!--                    </form>-->
+                </div>
 
-                <form style="display:inline-block" action="{{url_for('radnici.actions', action='change', worker_jmbg=worker.jmbg)}}" method="POST">
-                <button onclick="func1('div_{{loop.index}}')" id="change_button" class="btn ripple change"> Izmeni </button>
-                </form>
+                <div id="accept.{{loop.index}}" style="display:none">
+<!--                    <form action="{{url_for('radnici.actions', action='accept', worker_jmbg=worker.jmbg)}}" method="POST">-->
+                    <button id="accept_button" class="btn ripple change"> Prihvati </button>
+<!--                    </form>-->
+                </div>
 
                 <form style="display:inline-block;" action="{{url_for('radnici.actions', action='delete', worker_jmbg=worker.jmbg)}}" method="POST">
                 <button class="btn ripple danger" id="delete_button"> Obriši </button>

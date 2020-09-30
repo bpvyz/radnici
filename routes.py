@@ -45,15 +45,13 @@ def company():
                 err_code = 'Neispravni podaci firme!'
                 return render_template('greska.html', error_code=err_code, redirect_route=rroute)
 
-@radnici.route('/radnici/<pib>/<company_name>', methods=['POST'])
+@radnici.route('/radnici/<pib>/<company_name>', methods=['POST', 'GET'])
 def open(pib=None, company_name=None):
     print('open')
-    if request.form['submit_button'] == 'open':
+    if request.method == 'GET' or request.form['submit_button'] == 'open':
         session['company_name'] = company_name
         session['pib'] = pib
-
         workers = sess.query(Worker).filter(Worker.company_pib == pib).all()
-
         return render_template('spisak.html', company=company_name, workers=[worker for worker in workers])
 
     elif request.form['submit_button'] == 'delete':
@@ -131,10 +129,10 @@ def actions(action=None, worker_jmbg=None):
             delete_entry(worker_row_to_delete)
             return redirect(url_for('radnici.update'))
 
-        elif action == 'change':
-            return redirect(url_for('radnici.update'))
-        # elif action == 'renew':
-        #     return redirect(url_for('update'))
+        # elif action == 'change':
+        #     return redirect(url_for('radnici.update'))
+        # elif action == 'accept':
+        #     return redirect(url_for('radnici.update'))
 
     elif request.method == "GET":
         return redirect(url_for('radnici.update'))

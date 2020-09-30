@@ -1,6 +1,7 @@
 from datetime import datetime
 from models import Worker
 import base
+import requests
 
 sess = base.create_session()
 d1 = datetime.now().date()
@@ -26,3 +27,17 @@ def get_flags(companies):
         else:
             flags.append(['gray', ''])
     return flags
+
+api_base_url = "https://api.mailgun.net/v3/sandboxe94e5d92baf94b42a378e412c3b5e8df.mailgun.org"
+api_key = "key-f0ae9a300f4090e6826868072e1cf7a3"
+
+def send_email(vreme, ime_firme, radnici, url):
+    return requests.post(
+        f"{api_base_url}/messages",
+        auth=("api", api_key),
+        data={"from": "obavestenje@mojradnik.com",
+              "to": ["bogdanbokipaunovic@gmail.com"],
+              "subject": f"",
+              "text": f"{url}"})
+
+send_email(7, 'AUTO SHOP', 'Nemanja Dojcinovic', 'http://127.0.0.1:8081/radnici/712712831/AUTO%20SHOP')
