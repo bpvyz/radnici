@@ -1,4 +1,10 @@
 naslov maila:
-vreme {max 7 dana} - ime firme - radnik
+Obavestenje, n radnik/a pred istekom ugovora
 body maila:
-link prema firmi
+1. JMBG - ime radnika - firma - preostalo dana - url
+2. JMBG - ime radnika - firma - preostalo dana - url
+3. JMBG - ime radnika - firma - preostalo dana - url
+.
+.
+.
+n. JMBG - ime radnika - firma - preostalo dana - url

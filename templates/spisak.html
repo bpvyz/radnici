@@ -20,9 +20,16 @@
     cursor: pointer;
 }
 
+.tableFixHead          { height: 500px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+
 table {
   font-family: arial, sans-serif;
   table-layout:fixed;
+  display: block;
+  height: 500px;
+  overflow-y: scroll;
 }
 
 td, th {
@@ -31,6 +38,10 @@ td, th {
   padding: 8px;
   width:1px;
   white-space:nowrap;
+}
+
+th {
+    background:#eee;
 }
 
 tr:nth-child(even) {
@@ -112,26 +123,20 @@ a:hover {
 </style>
 
 <script defer type="text/javascript" src="{{ url_for('static', filename='js/sorttable.js') }}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 
 <script>
 
-$(document).ready(function(){
-    $('[id*="change."]').click(function(){
-        let change_id = $(this).attr('id')
-        let index = change_id.split(".")[1];
-        let accept_id = '#accept.' + index
-		$(this).hide();
-		$(accept_id).show();
-        console.log(this);
-        console.log(change_id);
-        console.log(index);
-        console.log(accept_id);
-    });
-});
+function change(){
+    let date = prompt('Unesite datum isteka ugovora: ');
+    var button = document.getElementById('change_button')
+    console.log(date);
+    button.value = date
+    return date;
+
+}
 
 </script>
+
 
 <head>
     <meta charset="UTF-8">
@@ -145,12 +150,14 @@ $(document).ready(function(){
     </h1>
 </head>
 <body>
+<div class="tableFixHead">
     <table class="sortable">
         <tr>
             <th class="clickable">JMBG</th>
             <th class="clickable">IME I PREZIME</th>
             <th class="clickable">DATUM PRIJAVE</th>
             <th class="clickable">DATUM ISTEKA</th>
+            <th></th>
         </tr>
         {% for worker in workers %}
         <tr>
@@ -159,17 +166,10 @@ $(document).ready(function(){
             <td>{{ worker.contract_start_date.strftime('%d/%m/%Y')}}</td>
             <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None else "Neodređeno" }}</td>
             <td id="buttons">
-                <div id="change.{{loop.index}}" style="display:inline-block">
-<!--                    <form action="{{url_for('radnici.actions', action='change', worker_jmbg=worker.jmbg)}}" method="POST">-->
-                    <button id="change_button" class="btn ripple change"> Izmeni </button>
-<!--                    </form>-->
-                </div>
 
-                <div id="accept.{{loop.index}}" style="display:none">
-<!--                    <form action="{{url_for('radnici.actions', action='accept', worker_jmbg=worker.jmbg)}}" method="POST">-->
-                    <button id="accept_button" class="btn ripple change"> Prihvati </button>
-<!--                    </form>-->
-                </div>
+                <form action="{{url_for('radnici.actions', action='change', worker_jmbg=worker.jmbg)}}" method="POST" style="display:inline-block">
+                    <input onclick="change()" type="submit" id="change_button" name="change_button" class="btn ripple change" value="Izmeni">
+                </form>
 
                 <form style="display:inline-block;" action="{{url_for('radnici.actions', action='delete', worker_jmbg=worker.jmbg)}}" method="POST">
                 <button class="btn ripple danger" id="delete_button"> Obriši </button>
@@ -190,7 +190,8 @@ $(document).ready(function(){
         </form>
         </tfoot>
     </table>
-
+</div>
 
 </body>
+
 </html>

@@ -115,10 +115,10 @@ font-weight: bold;
             <td>{{ each[1] }}</td>
             <td style="text-align: center; font-weight: bold; background: {{each[2][0]}}">{{each[2][1]}}</td>
             <td id="buttons">
-                <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1], company_name=each[0])}}" method="POST">
+                <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1])}}" method="POST">
                 <button class="btn ripple add" type="submit" name="submit_button" value="open">Otvori</button>
                 </form>
-                <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1], company_name=each[0])}}" method="POST">
+                <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1])}}" method="POST">
                 <button onclick="return confirm('Potvrdi brisanje firme! Ovo ce obrisati sve radnike firme!');" class="btn ripple danger" type="submit" name="submit_button" value="delete"> Obriši </button>
                 </form>
             </td>

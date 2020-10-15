@@ -45,14 +45,13 @@ def company():
                 err_code = 'Neispravni podaci firme!'
                 return render_template('greska.html', error_code=err_code, redirect_route=rroute)
 
-@radnici.route('/radnici/<pib>/<company_name>', methods=['POST', 'GET'])
-def open(pib=None, company_name=None):
+@radnici.route('/radnici/<pib>', methods=['POST', 'GET'])
+def open(pib=None):
     print('open')
     if request.method == 'GET' or request.form['submit_button'] == 'open':
-        session['company_name'] = company_name
         session['pib'] = pib
         workers = sess.query(Worker).filter(Worker.company_pib == pib).all()
-        return render_template('spisak.html', company=company_name, workers=[worker for worker in workers])
+        return render_template('spisak.html', workers=[worker for worker in workers])
 
     elif request.form['submit_button'] == 'delete':
 
@@ -108,11 +107,10 @@ def new_worker():
 @radnici.route('/radnici', methods=['GET'])
 def update():
     print('update')
-    company_name = session.get('company_name')
     pib = session.get('pib')
     workers = sess.query(Worker).filter(Worker.company_pib == pib).all()
 
-    return render_template('spisak.html', company=company_name, workers=[worker for worker in workers])
+    return render_template('spisak.html', workers=[worker for worker in workers])
 
 @radnici.route('/radnici/actions/<action>/<worker_jmbg>', methods=['GET', 'POST'])
 def actions(action=None, worker_jmbg=None):
@@ -122,6 +120,10 @@ def actions(action=None, worker_jmbg=None):
         sess.delete(entry)
         sess.commit()
 
+    def change_entry(entry, entry_data):
+        entry.contract_termination_date = entry_data
+        sess.commit()
+
     if request.method == "POST":
         if action == 'delete':
             print('delete')
@@ -129,10 +131,26 @@ def actions(action=None, worker_jmbg=None):
             delete_entry(worker_row_to_delete)
             return redirect(url_for('radnici.update'))
 
-        # elif action == 'change':
-        #     return redirect(url_for('radnici.update'))
-        # elif action == 'accept':
-        #     return redirect(url_for('radnici.update'))
+        elif action == 'change':
+            print(f'change {worker_jmbg}')
+
+            worker_row_to_change = sess.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
+
+            term_date = request.form.get('change_button')
+
+            print(f"Received: {term_date}")
+
+            if term_date == '':
+                term_date = None
+
+            if term_date:
+                term_date = datetime.strptime(term_date, '%d/%m/%Y')
+
+            print(f"After cast: {term_date}")
+
+            change_entry(worker_row_to_change, term_date)
+
+            return redirect(url_for('radnici.update'))
 
     elif request.method == "GET":
         return redirect(url_for('radnici.update'))
