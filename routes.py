@@ -1,26 +1,26 @@
-from flask import render_template, request, redirect, session, url_for, Blueprint
-import datetime, re
+import datetime
+import re
 from datetime import datetime
-import base
-import utils
-from models import Worker, Company
+
+from flask import render_template, request, redirect, session as flask_session, url_for, Blueprint
 from sqlalchemy.exc import IntegrityError
 
+import utils
+from base import session
+from models import Worker, Company
 
 radnici = Blueprint('radnici', __name__)
-sess = base.create_session()
 
 
 @radnici.route('/', methods=['GET'])
 def index():
-    companies = sess.query(Company).all()
+    companies = session.query(Company).all()
     flags = utils.get_flags(companies)
     return render_template('index.html', list=[[n.name, n.pib, flag] for (n, flag) in zip(companies, flags)])
 
 
 @radnici.route('/', methods=['POST'])
 def company():
-
     if request.method == 'POST':
         if request.form['submit_button'] == 'company':
             company_name = request.form.get('company_name')
@@ -28,37 +28,39 @@ def company():
             if company_name != company_pib != '' and re.match(r"\d{9}", company_pib):
                 try:
                     new_company = Company(name=company_name, pib=company_pib)
-                    sess.add(new_company)
-                    sess.flush()
+                    session.add(new_company)
+                    session.flush()
                 except IntegrityError:
-                    sess.rollback()
+                    session.rollback()
                     rroute = '/'
                     err_code = 'Firma sa ovim PIB-om vec postoji!'
                     return render_template('greska.html', error_code=err_code, redirect_route=rroute)
                 else:
-                    sess.commit()
-                    companies = sess.query(Company).all()
+                    session.commit()
+                    companies = session.query(Company).all()
                     flags = utils.get_flags(companies)
-                    return render_template('index.html', list=[[n.name, n.pib, flag] for (n, flag) in zip(companies, flags)])
+                    return render_template('index.html',
+                                           list=[[n.name, n.pib, flag] for (n, flag) in zip(companies, flags)])
             else:
                 rroute = '/'
                 err_code = 'Neispravni podaci firme!'
                 return render_template('greska.html', error_code=err_code, redirect_route=rroute)
 
+
 @radnici.route('/radnici/<pib>', methods=['POST', 'GET'])
 def open(pib=None):
     print('open')
     if request.method == 'GET' or request.form['submit_button'] == 'open':
-        session['pib'] = pib
-        workers = sess.query(Worker).filter(Worker.company_pib == pib).all()
+        flask_session['pib'] = pib
+        workers = session.query(Worker).filter(Worker.company_pib == pib).all()
         return render_template('spisak.html', workers=[worker for worker in workers])
 
     elif request.form['submit_button'] == 'delete':
 
-        sess.query(Worker).filter(Worker.company_pib == pib).delete()
-        sess.query(Company).filter(Company.pib == pib).delete()
+        session.query(Worker).filter(Worker.company_pib == pib).delete()
+        session.query(Company).filter(Company.pib == pib).delete()
 
-        sess.commit()
+        session.commit()
 
         return redirect(url_for('radnici.index'))
 
@@ -66,10 +68,9 @@ def open(pib=None):
 @radnici.route('/radnik_dodat', methods=['POST'])
 def new_worker():
     print('new worker')
-    pib = session.get('pib')
+    pib = flask_session.get('pib')
     if request.method == 'POST':
         if request.form['new_worker'] == 'new_worker':
-
             worker_jmbg = request.form.get('jmbg')
             worker_full_name = request.form.get('full_name')
             start_date = request.form.get('start_date')
@@ -87,70 +88,88 @@ def new_worker():
             if worker_full_name and worker_start_date and \
                     re.match(r'\d{13}', worker_jmbg):
                 try:
-                    new_worker = Worker(jmbg=worker_jmbg, full_name=worker_full_name,
-                                    contract_termination_date=worker_termination_date, contract_start_date=worker_start_date, company_pib=pib)
-                    sess.add(new_worker)
-                    sess.flush()
+                    new_worker = Worker(jmbg=worker_jmbg,
+                                        full_name=worker_full_name,
+                                        contract_termination_date=worker_termination_date,
+                                        contract_start_date=worker_start_date,
+                                        company_pib=pib)
+                    session.add(new_worker)
+                    session.flush()
                 except IntegrityError:
-                    sess.rollback()
+                    session.rollback()
                     rroute = '/radnici'
                     err_code = 'Radnik sa ovim JMBG-om vec postoji!'
                     return render_template('greska.html', error_code=err_code, redirect_route=rroute)
                 else:
-                    sess.commit()
+                    session.commit()
                     return render_template('dodat.html')
             else:
                 rroute = '/radnici'
                 err_code = 'Neispravni podaci radnika!'
                 return render_template('greska.html', error_code=err_code, redirect_route=rroute)
 
+
 @radnici.route('/radnici', methods=['GET'])
 def update():
     print('update')
-    pib = session.get('pib')
-    workers = sess.query(Worker).filter(Worker.company_pib == pib).all()
+    pib = flask_session.get('pib')
+    workers = session.query(Worker).filter(Worker.company_pib == pib).all()
 
     return render_template('spisak.html', workers=[worker for worker in workers])
 
-@radnici.route('/radnici/actions/<action>/<worker_jmbg>', methods=['GET', 'POST'])
-def actions(action=None, worker_jmbg=None):
-    print('actions')
+
+@radnici.route('/radnici/delete/<worker_jmbg>', methods=['POST'])
+def delete(worker_jmbg=None):
+    print('delete')
 
     def delete_entry(entry):
-        sess.delete(entry)
-        sess.commit()
-
-    def change_entry(entry, entry_data):
-        entry.contract_termination_date = entry_data
-        sess.commit()
+        session.delete(entry)
+        session.commit()
 
     if request.method == "POST":
-        if action == 'delete':
-            print('delete')
-            worker_row_to_delete = sess.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
-            delete_entry(worker_row_to_delete)
-            return redirect(url_for('radnici.update'))
-
-        elif action == 'change':
-            print(f'change {worker_jmbg}')
-
-            worker_row_to_change = sess.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
-
-            term_date = request.form.get('change_button')
-
-            print(f"Received: {term_date}")
-
-            if term_date == '':
-                term_date = None
-
-            if term_date:
-                term_date = datetime.strptime(term_date, '%d/%m/%Y')
-
-            print(f"After cast: {term_date}")
-
-            change_entry(worker_row_to_change, term_date)
-
-            return redirect(url_for('radnici.update'))
-
-    elif request.method == "GET":
+        print('delete')
+        worker_row_to_delete = session.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
+        delete_entry(worker_row_to_delete)
         return redirect(url_for('radnici.update'))
+
+
+@radnici.route('/radnici/edit/<worker_jmbg>', methods=['POST'])
+def edit(worker_jmbg=None):
+    print('edit')
+    worker = session.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
+    return render_template('edit.html', worker_jmbg=worker_jmbg, worker=worker)
+
+
+@radnici.route('/radnici/save/<worker_jmbg>', methods=['POST', 'GET'])
+def save(worker_jmbg=None):
+    print(f'change {worker_jmbg}')
+
+    new_jmbg = request.form.get('new_jmbg')
+    new_name = request.form.get('new_name')
+    subm_date = request.form.get('subm_date')
+    term_date = request.form.get('term_date')
+
+    worker_row_to_change = session.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
+
+    if new_jmbg:
+        worker_row_to_change.jmbg = new_jmbg
+
+    if new_name:
+        worker_row_to_change.full_name = new_name
+
+    if subm_date:
+        start_date_object = datetime.strptime(subm_date, '%d/%m/%Y')
+        worker_start_date = start_date_object.strftime('%Y-%m-%d')
+        worker_row_to_change.contract_start_date = worker_start_date
+
+    if term_date == '' or term_date == "Neodređeno":
+        term_date = None
+
+    if term_date:
+        term_date = datetime.strptime(term_date, '%d/%m/%Y')
+
+    worker_row_to_change.contract_termination_date = term_date
+
+    session.commit()
+
+    return redirect(url_for('radnici.update'))

@@ -1,10 +1,92 @@
 <!DOCTYPE html>
+<style>
+    /* Ripple effect */
+.ripple {
+  background-position: center;
+  transition: background 0.8s, color 0.8s;
+}
+.ripple:hover {
+  background: #000000 radial-gradient(circle, transparent 1%, #ffffff 1%) center/15000%;
+}
+.ripple:active {
+  background-color: #ffffff;
+  background-size: 100%;
+  transition: background 0.8s;
+}
+
+.btn {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 7px 28px;
+  font-size: 16px;
+  cursor: pointer;
+    border-radius: 12px;
+}
+
+.change:hover {
+    background: #000f87;
+    color: white;
+    font-weight: bold;
+}
+
+.change {
+    border-color: #000f87;
+    color: #000f87;
+    font-weight: bold;
+}
+
+    table {
+  font-family: arial, sans-serif;
+  table-layout:fixed;
+  display: block;
+  height: 700px;
+  overflow-y: scroll;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  width:1px;
+  white-space:nowrap;
+}
+
+th {
+    background:#eee;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Izmena radnika</title>
 </head>
 <body>
-$END$
+<table>
+    <tr>
+        <th>JMBG</th>
+        <th>IME I PREZIME</th>
+        <th>DATUM PRIJAVE</th>
+        <th>DATUM ISTEKA</th>
+    </tr>
+    <tr>
+
+        <form id="edit_form" action="{{url_for('radnici.save', worker_jmbg=worker_jmbg)}}" method="POST">
+            <td><input type="text" id="new_jmbg" name="new_jmbg" value="{{ worker.jmbg }}"></td>
+            <td><input type="text" id="new_name" name="new_name" value="{{ worker.full_name }}"></td>
+            <td><input type="text" id="subm_date" name="subm_date" value="{{ worker.contract_start_date.strftime('%d/%m/%Y')}}"></td>
+            <td><input type="text" id="term_date" name="term_date" value="{{ worker.contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None else 'Neodređeno' }}"></td>
+            <td style="text-align: center"><button class="btn ripple change" type="submit">Izmeni</button></td>
+
+        </form>
+    </tr>
+
+</table>
+
 </body>
 </html>

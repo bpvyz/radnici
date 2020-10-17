@@ -1,5 +1,5 @@
 from models import Worker, Company
-from base import create_session
+from base import session
 from sqlalchemy.exc import IntegrityError
 from random import randint
 import names
@@ -13,7 +13,6 @@ def randomize_numbers(n):
     return randint(range_start, range_end)
 
 
-sess = create_session()
 
 
 def populate():
@@ -21,14 +20,14 @@ def populate():
 
     try:
         new_company = Company(name='Test', pib=str(random_pib))
-        sess.add(new_company)
-        sess.flush()
+        session.add(new_company)
+        session.flush()
         print('Company added!')
     except IntegrityError:
-        sess.rollback()
+        session.rollback()
         print('Firma sa ovim PIB-om vec postoji!')
     else:
-        sess.commit()
+        session.commit()
 
     for i in range(int(input('How many workers should I populate the "Test" company with?'))):
         now = datetime.now().date()
@@ -38,14 +37,14 @@ def populate():
             new_worker = Worker(jmbg=str(randomize_numbers(13)), company_pib=str(random_pib),
                                 full_name=names.get_full_name(),
                                 contract_start_date=datetime.now().date(), contract_termination_date=term)
-            sess.add(new_worker)
-            sess.flush()
+            session.add(new_worker)
+            session.flush()
             print('Worker added!')
         except IntegrityError:
-            sess.rollback()
+            session.rollback()
             print('Radnik sa ovim JMBG-om vec postoji!')
         else:
-            sess.commit()
+            session.commit()
 
 
 populate()

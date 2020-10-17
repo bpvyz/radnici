@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Date, Boolean, ForeignKey
+from sqlalchemy import Column, String, Date, Boolean, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -8,7 +8,7 @@ class Company(Base):
     __tablename__ = 'companies'
 
     pib = Column(String(9), primary_key=True)
-    name = Column(String(50), nullable=False)
+    name = Column(Text, nullable=False)
 
 
 class Worker(Base):

@@ -20,7 +20,7 @@
     cursor: pointer;
 }
 
-.tableFixHead          { height: 500px; }
+.tableFixHead          { height: 700px; }
 .tableFixHead thead th { position: sticky; top: 0; }
 
 
@@ -28,7 +28,7 @@ table {
   font-family: arial, sans-serif;
   table-layout:fixed;
   display: block;
-  height: 500px;
+  height: 700px;
   overflow-y: scroll;
 }
 
@@ -126,14 +126,14 @@ a:hover {
 
 <script>
 
-function change(){
-    let date = prompt('Unesite datum isteka ugovora: ');
-    var button = document.getElementById('change_button')
-    console.log(date);
-    button.value = date
-    return date;
-
-}
+// function change(){
+//     let date = prompt('Unesite datum isteka ugovora: ');
+//     var button = document.getElementById('change_button')
+//     console.log(date);
+//     button.value = date
+//     return date;
+//
+// }
 
 </script>
 
@@ -164,14 +164,13 @@ function change(){
             <td>{{ worker.jmbg }}</td>
             <td>{{ worker.full_name }}</td>
             <td>{{ worker.contract_start_date.strftime('%d/%m/%Y')}}</td>
-            <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None else "Neodređeno" }}</td>
+            <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None else 'Neodređeno' }}</td>
+
             <td id="buttons">
-
-                <form action="{{url_for('radnici.actions', action='change', worker_jmbg=worker.jmbg)}}" method="POST" style="display:inline-block">
-                    <input onclick="change()" type="submit" id="change_button" name="change_button" class="btn ripple change" value="Izmeni">
+                <form id="term_form" action="{{url_for('radnici.edit', worker_jmbg=worker.jmbg)}}" method="POST" style="display:inline-block">
+                <button id="change_button" class="btn ripple change"> Izmeni </button>
                 </form>
-
-                <form style="display:inline-block;" action="{{url_for('radnici.actions', action='delete', worker_jmbg=worker.jmbg)}}" method="POST">
+                <form style="display:inline-block;" action="{{url_for('radnici.delete', worker_jmbg=worker.jmbg)}}" method="POST">
                 <button class="btn ripple danger" id="delete_button"> Obriši </button>
                 </form>
             </td>

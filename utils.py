@@ -1,8 +1,8 @@
 from datetime import datetime
-from models import Worker
-import base
 
-sess = base.create_session()
+from base import session
+from models import Worker
+
 now = datetime.now().date()
 
 
@@ -12,7 +12,7 @@ def get_flags(companies):
 
     for company in companies:
 
-        workers = sess.query(Worker).filter(Worker.company_pib == company.pib).all()
+        workers = session.query(Worker).filter(Worker.company_pib == company.pib).all()
 
         minimum_delta = None
 

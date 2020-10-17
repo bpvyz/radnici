@@ -1,26 +1,25 @@
 import requests
-import base
+from base import session
 from models import Worker, Company
 from datetime import datetime
 import os
 
-api_base_url = os.environ['mailgun_base_url']
-api_key = os.environ['mailgun_key']
+MAILGUN_BASE_URL = os.environ['MAILGUN_BASE_URL']
+MAILGUN_KEY = os.environ['MAILGUN_KEY']
 d1 = datetime.now().date()
 
 
 def get_email_list():
-    sess = base.create_session()
-    workers = sess.query(Worker).all()
+    workers = session.query(Worker).all()
     worker_list = []
     for worker in workers:
         if worker.contract_termination_date is not None:
-            company_name = sess.query(Company).filter(Company.pib == worker.company_pib).one().name
+            company_name = session.query(Company).filter(Company.pib == worker.company_pib).one().name
 
             d2 = worker.contract_termination_date
             time_left = abs((d2 - d1).days)
             if time_left <= 7:
-                url = f"{os.environ['server_url']}/radnici/{worker.company_pib}"
+                url = f"{os.environ['SERVER_URL']}/radnici/{worker.company_pib}"
                 worker_list.append({'JMBG': worker.jmbg,
                                     'full_name': worker.full_name,
                                     'company_name': company_name,
@@ -30,15 +29,12 @@ def get_email_list():
     return worker_list
 
 
-print(get_email_list())
-
-
 def send_email(worker_list):
     n = len(worker_list)
     if n > 0:
         return requests.post(
-            f"{api_base_url}/messages",
-            auth=("api", api_key),
+            f"{MAILGUN_BASE_URL}/messages",
+            auth=("api", MAILGUN_KEY),
             data={"from": "obavestenje@mojradnik.com",
                   "to": ["agencijapapiri@gmail.com", "bogdanbokipaunovic@gmail.com"],
                   "subject": f"Obavestenje, {n} radnik/a pred istekom ugovora",
