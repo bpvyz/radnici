@@ -1,10 +1,10 @@
 from flask import Flask
 from routes import radnici
 
+# DATA_PATH = './static/'
 
-app = Flask(__name__)
-data_path = './static/'
 
 def create_app():
+    app = Flask("radnici")
     app.register_blueprint(radnici)
     return app
