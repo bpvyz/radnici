@@ -13,6 +13,9 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v1
 
+    - name: Install postgresql dependency
+      run: sudo apt-get install libpq-dev
+
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
       
