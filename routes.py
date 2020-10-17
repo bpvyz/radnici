@@ -35,12 +35,12 @@ def company():
                     rroute = '/'
                     err_code = 'Firma sa ovim PIB-om vec postoji!'
                     return render_template('greska.html', error_code=err_code, redirect_route=rroute)
-                else:
-                    session.commit()
-                    companies = session.query(Company).all()
-                    flags = utils.get_flags(companies)
-                    return render_template('index.html',
-                                           list=[[n.name, n.pib, flag] for (n, flag) in zip(companies, flags)])
+
+                session.commit()
+                companies = session.query(Company).all()
+                flags = utils.get_flags(companies)
+                return render_template('index.html',
+                                       list=[[n.name, n.pib, flag] for (n, flag) in zip(companies, flags)])
             else:
                 rroute = '/'
                 err_code = 'Neispravni podaci firme!'
@@ -100,9 +100,9 @@ def new_worker():
                     rroute = '/radnici'
                     err_code = 'Radnik sa ovim JMBG-om vec postoji!'
                     return render_template('greska.html', error_code=err_code, redirect_route=rroute)
-                else:
-                    session.commit()
-                    return render_template('dodat.html')
+
+                session.commit()
+                return render_template('dodat.html')
             else:
                 rroute = '/radnici'
                 err_code = 'Neispravni podaci radnika!'
@@ -120,16 +120,12 @@ def update():
 
 @radnici.route('/radnici/delete/<worker_jmbg>', methods=['POST'])
 def delete(worker_jmbg=None):
-    print('delete')
-
-    def delete_entry(entry):
-        session.delete(entry)
-        session.commit()
 
     if request.method == "POST":
         print('delete')
         worker_row_to_delete = session.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
-        delete_entry(worker_row_to_delete)
+        session.delete(worker_row_to_delete)
+        session.commit()
         return redirect(url_for('radnici.update'))
 
 
