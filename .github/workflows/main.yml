@@ -25,4 +25,3 @@ jobs:
         environment_name: RadniciUgovoriProd-env
         version_label: 1
         region: us-east-1
-        deployment_package: deploy.zip
