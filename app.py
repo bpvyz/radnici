@@ -15,7 +15,5 @@ def create_app():
         else:
             session.commit()
 
-        session.remove()
-
     app.register_blueprint(radnici)
     return app
