@@ -104,9 +104,13 @@ font-weight: bold;
     <br>
         <table class="sortable">
         <tr>
-            <th class="clickable">IME</th>
-            <th class="clickable">PIB</th>
-            <th class="clickable"><img src="/static/hourglass.png" width="42" height="42" class="center"></th>
+            <th style="background: black; color: white" class="clickable">IME FIRME</th>
+            <th style="background: black; color: white" class="clickable">PIB</th>
+            <th style="background: black; color: white" class="clickable">
+                <img style="-webkit-filter: invert(1);
+                            filter: invert(1);"
+                     src="/static/hourglass.png" width="42" height="42" class="center">
+            </th>
 
         </tr>
         {% for each in list %}
