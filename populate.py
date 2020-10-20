@@ -19,7 +19,7 @@ def populate():
     random_pib = randomize_numbers(9)
 
     try:
-        new_company = Company(name='Test', pib=str(random_pib))
+        new_company = Company(name='Test1', pib=str(random_pib))
         session.add(new_company)
         session.flush()
         print('Company added!')

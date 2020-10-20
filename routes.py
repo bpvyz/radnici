@@ -53,7 +53,8 @@ def open(pib=None):
     if request.method == 'GET' or request.form['submit_button'] == 'open':
         flask_session['pib'] = pib
         workers = session.query(Worker).filter(Worker.company_pib == pib).all()
-        return render_template('spisak.html', workers=[worker for worker in workers])
+        company = session.query(Company).filter(Company.pib == pib).one()
+        return render_template('spisak.html', workers=[worker for worker in workers], company=company.name)
 
     elif request.form['submit_button'] == 'delete':
 
@@ -133,7 +134,7 @@ def delete(worker_jmbg=None):
 def edit(worker_jmbg=None):
     print('edit')
     worker = session.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
-    return render_template('edit.html', worker_jmbg=worker_jmbg, worker=worker)
+    return render_template('edit.html', worker_jmbg=worker_jmbg, worker=worker, pib=flask_session['pib'])
 
 
 @radnici.route('/radnici/save/<worker_jmbg>', methods=['POST', 'GET'])
@@ -165,6 +166,17 @@ def save(worker_jmbg=None):
         term_date = datetime.strptime(term_date, '%d/%m/%Y')
 
     worker_row_to_change.contract_termination_date = term_date
+
+    try:
+        session.add(worker_row_to_change)
+        session.flush()
+
+    except IntegrityError:
+        session.rollback()
+        rroute = '/radnici'
+        err_code = 'Radnik sa ovim JMBG-om vec postoji!'
+
+        return render_template('greska.html', error_code=err_code, redirect_route=rroute)
 
     session.commit()
 
