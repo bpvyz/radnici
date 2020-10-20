@@ -25,10 +25,10 @@ def get_flags(companies):
         if minimum_delta is None:
             flags.append(['gray', ''])
         elif minimum_delta < 10:
-            flags.append(['red', minimum_delta])
+            flags.append(['#FF1744', minimum_delta])
         elif minimum_delta < 31:
-            flags.append(['yellow', minimum_delta])
+            flags.append(['#FFEA00', minimum_delta])
         else:
-            flags.append(['green', minimum_delta])
+            flags.append(['#66BB6A', minimum_delta])
 
     return flags
