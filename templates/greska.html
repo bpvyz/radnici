@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png"/>
     <meta charset="UTF-8">
     <title>Greska</title>
 </head>
 <body>
-    <h1>{{error_code}}</h1>
+<h1>{{error_code}}</h1>
 {% block javascript %}
 
 <script>
-     window.setTimeout(function(){
+    window.setTimeout(function () {
 
-       // Move to a new location or you can do something else
-       window.location.href = {{ redirect_route|tojson|safe }};
+        // Move to a new location or you can do something else
+        window.location.href = {
+        {
+            redirect_route | tojson | safe
+        }
+    }
+        ;
 
-       }, 1500);
+    }, 1500);
 
 </script>
 {% endblock %}

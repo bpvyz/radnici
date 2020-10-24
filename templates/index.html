@@ -1,114 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
-/* Ripple effect */
-.ripple {
-  background-position: center;
-  transition: background 0.8s, color 0.8s;
-}
-.ripple:hover {
-  background: #000000 radial-gradient(circle, transparent 1%, #ffffff 1%) center/15000%;
-}
-.ripple:active {
-  background-color: #ffffff;
-  background-size: 100%;
-  transition: background 0.8s;
-}
+    /* Ripple effect */
+    .ripple {
+        background-position: center;
+        transition: background 0.8s, color 0.8s;
+    }
 
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+    .ripple:hover {
+        background: #000000 radial-gradient(circle, transparent 1%, #ffffff 1%) center/15000%;
+    }
 
-body {
-    font-family: 'Roboto';
-}
+    .ripple:active {
+        background-color: #ffffff;
+        background-size: 100%;
+        transition: background 0.8s;
+    }
 
-table {
-  table-layout:fixed;
-}
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-  width:1px;
-  white-space:nowrap;
-}
+    body {
+        font-family: 'Roboto';
+    }
 
-.clickable {
-    cursor: pointer;
-}
+    table {
+        table-layout: fixed;
+    }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        width: 1px;
+        white-space: nowrap;
+    }
 
-.btn {
-  border: 2px solid black;
-  background-color: white;
-  color: black;
-  padding: 7px 28px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 12px;
-}
+    .clickable {
+        cursor: pointer;
+    }
 
-.danger {
-    border-color: #800000;
-    color: #800000;
-    font-weight: bold;
-}
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
 
-.danger:hover {
-  background: #800000;
-  color: white;
-  font-weight: bold;
-}
+    .btn {
+        border: 2px solid black;
+        background-color: white;
+        color: black;
+        padding: 7px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 12px;
+    }
 
-.create {
-    border-color: #000000;
-    color: #000000;
-    font-weight: bold;
-}
+    .danger {
+        border-color: #800000;
+        color: #800000;
+        font-weight: bold;
+    }
 
-.create:hover {
-  background: #000000;
-  color: white;
-font-weight: bold;
-}
+    .danger:hover {
+        background: #800000;
+        color: white;
+        font-weight: bold;
+    }
 
-.add {
-    border-color: #004e02;
-    color: #004e02;
-    font-weight: bold;
-}
+    .create {
+        border-color: #000000;
+        color: #000000;
+        font-weight: bold;
+    }
 
-.add:hover {
-    background: #004e02;
-    color: white;
-    font-weight: bold;
-}
+    .create:hover {
+        background: #000000;
+        color: white;
+        font-weight: bold;
+    }
 
-a.svg {
-  position: relative;
-  display: block;
-}
+    .add {
+        border-color: #004e02;
+        color: #004e02;
+        font-weight: bold;
+    }
 
-a.svg:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
+    .add:hover {
+        background: #004e02;
+        color: white;
+        font-weight: bold;
+    }
 
-input {
-    font-family: "Roboto";
-    font-size: 1em;
-}
+    a.svg {
+        position: relative;
+        display: block;
+    }
+
+    a.svg:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    input {
+        font-family: "Roboto";
+        font-size: 1em;
+    }
 
 </style>
 
@@ -117,59 +119,63 @@ input {
 
 <head>
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png"/>
     <meta charset="UTF-8">
     <title>Firme</title>
 </head>
 <body>
-    <a href="/" class="svg" style="width: 255px; height: 52px">
-    <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 252px; height: 52px">
+<a href="/" class="svg" style="width: 332px; height: 68px">
+    <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 332px; height: 68px">
     </object>
-    </a>
-    <br>
-    <br>
-    <h1>
-        Izaberi postojeću firmu:
-    </h1>
-    <br>
-        <table class="sortable">
-        <tr>
-            <th style="background: black; color: white" class="clickable">IME FIRME</th>
-            <th style="background: black; color: white" class="clickable">PIB</th>
-            <th style="background: black; color: white" class="clickable">
-                <img style="-webkit-filter: invert(1);
+</a>
+<br>
+<h2>
+    Izaberi postojeću firmu:
+</h2>
+<table class="sortable">
+    <tr>
+        <th style="background: black; color: white" class="clickable">IME FIRME</th>
+        <th style="background: black; color: white" class="clickable">PIB</th>
+        <th style="background: black; color: white" class="clickable">
+            <img style="-webkit-filter: invert(1);
                             filter: invert(1);"
-                     src="/static/hourglass.png" width="42" height="42" class="center">
-            </th>
+                 src="/static/hourglass.png" width="42" height="42" class="center">
+        </th>
 
-        </tr>
-        {% for each in list %}
-        <tr>
-            <td>{{ each[0] }}</td>
-            <td>{{ each[1] }}</td>
-            <td style="text-align: center; font-weight: bold; background: {{each[2][0]}}">{{each[2][1]}}</td>
-            <td id="buttons">
-                <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1])}}" method="POST">
+    </tr>
+    {% for each in list %}
+    <tr>
+        <td>{{ each[0] }}</td>
+        <td>{{ each[1] }}</td>
+        <td style="text-align: center; font-weight: bold; background: {{each[2][0]}}">{{each[2][1]}}</td>
+        <td id="buttons">
+            <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1])}}" method="POST">
                 <button class="btn ripple add" type="submit" name="submit_button" value="open">Otvori</button>
-                </form>
-                <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1])}}" method="POST">
-                <button onclick="return confirm('Potvrdi brisanje firme! Ovo ce obrisati sve radnike firme!');" class="btn ripple danger" type="submit" name="submit_button" value="delete"> Obriši </button>
-                </form>
+            </form>
+            <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1])}}" method="POST">
+                <button onclick="return confirm('Potvrdi brisanje firme! Ovo ce obrisati sve radnike firme!');"
+                        class="btn ripple danger" type="submit" name="submit_button" value="delete"> Obriši
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    <tfoot>
+    <form id="company_form" class="submit_company" method="POST" action="{{url_for('radnici.company')}}">
+        <tr>
+            <td><input type="text" id="company_name" name="company_name"><br></td>
+            <td><input type="text" id="company_pib" name="company_pib"><br></td>
+            <td></td>
+            <td style="text-align: center">
+                <button style="width:100%" class="btn ripple create" type="submit" name="submit_button" value="company">
+                    Dodaj
+                </button>
             </td>
         </tr>
-        {% endfor %}
-            <tfoot>
-            <form id="company_form" class="submit_company" method="POST" action="{{url_for('radnici.company')}}">
-            <tr>
-                <td><input type="text" id="company_name" name="company_name"><br></td>
-                <td><input type="text" id="company_pib" name="company_pib"><br></td>
-                <td></td>
-                <td style="text-align: center"> <button style="width:100%" class="btn ripple create" type="submit" name="submit_button" value="company">Dodaj</button></td>
-            </tr>
-            <br>
-            </form>
-            </tfoot>
-        </table>
-    <br>
+        <br>
+    </form>
+    </tfoot>
+</table>
+<br>
 </body>
 </html>

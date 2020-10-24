@@ -121,7 +121,6 @@ def update():
 
 @radnici.route('/radnici/delete/<worker_jmbg>', methods=['POST'])
 def delete(worker_jmbg=None):
-
     if request.method == "POST":
         print('delete')
         worker_row_to_delete = session.query(Worker).filter(Worker.jmbg == worker_jmbg).one()

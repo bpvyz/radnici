@@ -13,8 +13,6 @@ def randomize_numbers(n):
     return randint(range_start, range_end)
 
 
-
-
 def populate():
     random_pib = randomize_numbers(9)
 

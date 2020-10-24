@@ -3,7 +3,7 @@ import os
 from app import create_app
 
 application = create_app()
-#application.config.update(SECRET_KEY=os.environ['SECRET_KEY'])
+# application.config.update(SECRET_KEY=os.environ['SECRET_KEY'])
 
 application.config.update(SECRET_KEY='test_key')
 

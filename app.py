@@ -2,6 +2,7 @@ from flask import Flask
 from routes import radnici
 from base import session
 
+
 # DATA_PATH = './static/'
 
 

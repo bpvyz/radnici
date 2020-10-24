@@ -2,137 +2,146 @@
 <html lang="en" xmlns:position="http://www.w3.org/1999/xhtml">
 <style>
 
-/* Ripple effect */
-.ripple {
-  background-position: center;
-  transition: background 0.8s, color 0.8s;
-}
-.ripple:hover {
-  background: #000000 radial-gradient(circle, transparent 1%, #ffffff 1%) center/15000%;
-}
-.ripple:active {
-  background-color: #ffffff;
-  background-size: 100%;
-  transition: background 0.8s;
-}
+    /* Ripple effect */
+    .ripple {
+        background-position: center;
+        transition: background 0.8s, color 0.8s;
+    }
 
-.clickable {
-    cursor: pointer;
-}
+    .ripple:hover {
+        background: #000000 radial-gradient(circle, transparent 1%, #ffffff 1%) center/15000%;
+    }
 
-.tableFixHead          { height: 700px; }
-.tableFixHead thead th { position: sticky; top: 0; }
+    .ripple:active {
+        background-color: #ffffff;
+        background-size: 100%;
+        transition: background 0.8s;
+    }
 
-body {
-    font-family: 'Roboto';
-}
+    .clickable {
+        cursor: pointer;
+    }
 
-table {
-  table-layout:fixed;
-  display: block;
-  height: 700px;
-  overflow-y: scroll;
-}
+    .tableFixHead {
+        height: 700px;
+    }
 
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-  width:1px;
-  white-space:nowrap;
-}
+    .tableFixHead thead th {
+        position: sticky;
+        top: 0;
+    }
 
-th {
-    background:#dddddd;
-}
+    body {
+        font-family: 'Roboto';
+    }
 
-tr:nth-child(even) {
-  background-color: #eee;
-}
+    table {
+        table-layout: fixed;
+        display: block;
+        height: 700px;
+        overflow-y: scroll;
+    }
 
-.btn {
-  border: 2px solid black;
-  background-color: white;
-  color: black;
-  padding: 7px 28px;
-  font-size: 16px;
-  cursor: pointer;
-    border-radius: 12px;
-}
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        width: 1px;
+        white-space: nowrap;
+    }
 
-.danger {
-    border-color: #800000;
-    color: #800000;
-    font-weight: bold;
-}
+    th {
+        background: #dddddd;
+    }
 
+    tr:nth-child(even) {
+        background-color: #eee;
+    }
 
-.change {
-    border-color: #000f87;
-    color: #000f87;
-    font-weight: bold;
-}
+    .btn {
+        border: 2px solid black;
+        background-color: white;
+        color: black;
+        padding: 7px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 12px;
+    }
 
-.add {
-    border-color: #004e02;
-    color: #004e02;
-    font-weight: bold;
-}
-.add:hover {
-    background: #004e02;
-    color: white;
-    font-weight: bold;
-}
-
-.change:hover {
-    background: #000f87;
-    color: white;
-    font-weight: bold;
-}
+    .danger {
+        border-color: #800000;
+        color: #800000;
+        font-weight: bold;
+    }
 
 
-.danger:hover {
-  background: #800000;
-  color: white;
-font-weight: bold;
-}
+    .change {
+        border-color: #000f87;
+        color: #000f87;
+        font-weight: bold;
+    }
 
-a.back {
-  font-weight: bold;
-  color: black;
-  border: 2px solid black;
-  text-decoration: none;
-  padding: 4px 16px;
-  position: relative;
-  display: inline-block;
-  font-size: 28px;
-  border-radius: 12px;
-}
+    .add {
+        border-color: #004e02;
+        color: #004e02;
+        font-weight: bold;
+    }
 
-a.back:hover {
-  background: #000000;
-  color: white;
-  font-weight: bold;
-}
+    .add:hover {
+        background: #004e02;
+        color: white;
+        font-weight: bold;
+    }
 
-a.svg {
-  position: relative;
-  display: block;
-}
+    .change:hover {
+        background: #000f87;
+        color: white;
+        font-weight: bold;
+    }
 
-a.svg:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
 
-input {
-    font-family: "Roboto";
-    font-size: 1em;
-}
+    .danger:hover {
+        background: #800000;
+        color: white;
+        font-weight: bold;
+    }
+
+    a.back {
+        font-weight: bold;
+        color: black;
+        border: 2px solid black;
+        text-decoration: none;
+        padding: 4px 16px;
+        position: relative;
+        display: inline-block;
+        font-size: 28px;
+        border-radius: 12px;
+    }
+
+    a.back:hover {
+        background: #000000;
+        color: white;
+        font-weight: bold;
+    }
+
+    a.svg {
+        position: relative;
+        display: block;
+    }
+
+    a.svg:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    input {
+        font-family: "Roboto";
+        font-size: 1em;
+    }
 
 </style>
 
@@ -140,14 +149,14 @@ input {
 
 <script>
 
-// function change(){
-//     let date = prompt('Unesite datum isteka ugovora: ');
-//     var button = document.getElementById('change_button')
-//     console.log(date);
-//     button.value = date
-//     return date;
-//
-// }
+    // function change(){
+    //     let date = prompt('Unesite datum isteka ugovora: ');
+    //     var button = document.getElementById('change_button')
+    //     console.log(date);
+    //     button.value = date
+    //     return date;
+    //
+    // }
 
 </script>
 
@@ -155,19 +164,19 @@ input {
 <head>
     <meta charset="UTF-8">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png"/>
     <title>{{company}}</title>
 
-    <a href="/" class="svg" style="width: 255px; height: 52px">
-    <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 252px; height: 52px">
-    </object>
+    <a href="/" class="svg" style="width: 332px; height: 68px">
+        <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 332px; height: 68px">
+        </object>
     </a>
     <br>
-    <a class="back" style="display:inline-block"  href='/'>&#8249</a>
+    <a class="back" style="display:inline-block" href='/'>&#8249</a>
     <h3 style="display:inline-block; position: relative; left: 10px;">NAZAD</h3>
-    <h1>
+    <h2>
         {{company}}
-    </h1>
+    </h2>
 </head>
 <body>
 <div class="tableFixHead">
@@ -184,14 +193,18 @@ input {
             <td>{{ worker.jmbg }}</td>
             <td>{{ worker.full_name }}</td>
             <td>{{ worker.contract_start_date.strftime('%d/%m/%Y')}}</td>
-            <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None else 'Neodređeno' }}</td>
+            <td>{{ worker.contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None
+                else 'Neodređeno' }}
+            </td>
 
             <td id="buttons">
-                <form id="term_form" action="{{url_for('radnici.edit', worker_jmbg=worker.jmbg)}}" method="POST" style="display:inline-block">
-                <button id="change_button" class="btn ripple change"> Izmeni </button>
+                <form id="term_form" action="{{url_for('radnici.edit', worker_jmbg=worker.jmbg)}}" method="POST"
+                      style="display:inline-block">
+                    <button id="change_button" class="btn ripple change"> Izmeni</button>
                 </form>
-                <form style="display:inline-block;" action="{{url_for('radnici.delete', worker_jmbg=worker.jmbg)}}" method="POST">
-                <button class="btn ripple danger" id="delete_button"> Obriši </button>
+                <form style="display:inline-block;" action="{{url_for('radnici.delete', worker_jmbg=worker.jmbg)}}"
+                      method="POST">
+                    <button class="btn ripple danger" id="delete_button"> Obriši</button>
                 </form>
             </td>
         </tr>
@@ -203,7 +216,11 @@ input {
                 <td><input type="text" id="full_name" name="full_name"><br></td>
                 <td><input type="text" id="start_date" name="start_date"><br></td>
                 <td><input type="text" id="termination_date" name="termination_date"><br></td>
-                <td style="text-align: center"><button class="btn add ripple" form="worker_form" type="submit" name="new_worker" value="new_worker">Dodaj novog radnika</button></td>
+                <td style="text-align: center">
+                    <button class="btn add ripple" form="worker_form" type="submit" name="new_worker"
+                            value="new_worker">Dodaj novog radnika
+                    </button>
+                </td>
             </tr>
             <br>
         </form>

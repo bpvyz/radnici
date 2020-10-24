@@ -7,7 +7,6 @@ now = datetime.now().date()
 
 
 def get_flags(companies):
-
     flags = []
 
     for company in companies:
