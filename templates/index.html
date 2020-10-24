@@ -21,8 +21,11 @@
   margin-right: auto;
 }
 
+body {
+    font-family: 'Roboto';
+}
+
 table {
-  font-family: arial, sans-serif;
   table-layout:fixed;
 }
 
@@ -88,16 +91,41 @@ font-weight: bold;
     font-weight: bold;
 }
 
+a.svg {
+  position: relative;
+  display: block;
+}
+
+a.svg:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+input {
+    font-size: 1em;
+}
+
 </style>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/sorttable.js') }}">
 </script>
 
 <head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <meta charset="UTF-8">
     <title>Firme</title>
 </head>
 <body>
+    <a href="/" class="svg" style="width: 255px; height: 52px">
+    <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 252px; height: 52px">
+    </object>
+    </a>
+    <br>
+    <br>
     <h1>
         Izaberi postojeću firmu:
     </h1>

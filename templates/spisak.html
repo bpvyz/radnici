@@ -23,9 +23,11 @@
 .tableFixHead          { height: 700px; }
 .tableFixHead thead th { position: sticky; top: 0; }
 
+body {
+    font-family: 'Roboto';
+}
 
 table {
-  font-family: arial, sans-serif;
   table-layout:fixed;
   display: block;
   height: 700px;
@@ -95,7 +97,7 @@ tr:nth-child(even) {
 font-weight: bold;
 }
 
-a {
+a.back {
   font-weight: bold;
   color: black;
   border: 2px solid black;
@@ -107,18 +109,29 @@ a {
   border-radius: 12px;
 }
 
-a:hover {
+a.back:hover {
   background: #000000;
   color: white;
   font-weight: bold;
 }
 
-.previous {
-  background-color: #ffffff;
-  color: #000000;
+a.svg {
+  position: relative;
+  display: block;
 }
 
+a.svg:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 
+input {
+    font-size: 1em;
+}
 
 </style>
 
@@ -140,11 +153,16 @@ a:hover {
 
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <title>{{company}}</title>
-    <a style="display:inline-block"  href='/'>&#8249</a>
+
+    <a href="/" class="svg" style="width: 255px; height: 52px">
+    <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 252px; height: 52px">
+    </object>
+    </a>
+    <br>
+    <a class="back" style="display:inline-block"  href='/'>&#8249</a>
     <h3 style="display:inline-block; position: relative; left: 10px;">NAZAD</h3>
-    <br>
-    <br>
     <h1>
         {{company}}
     </h1>
