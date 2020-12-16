@@ -122,28 +122,6 @@
 </style>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/sorttable.js') }}">
-    function startTime() {
-        var today = new Date();
-        var y = today.getFullYear();
-        var mo = today.getMonth() + 1;
-        var d = today.getDate();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        document.getElementById('current_time').innerHTML =
-            "Trenutno vreme: " + h + ":" + m + ":" + s + "  " + d + "/" + mo + "/" + y;
-        var t = setTimeout(startTime, 500);
-    }
-
-    function checkTime(i) {
-        if (i < 10) {
-            i = "0" + i
-        }
-        ;  // add zero in front of numbers < 10
-        return i;
-    }
 </script>
 
 <head>
@@ -157,7 +135,6 @@
     <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 332px; height: 68px">
     </object>
 </a>
-<p id="current_time" class="topright"></p>
 <br>
 <h2>
     Izaberi postojeću firmu:
