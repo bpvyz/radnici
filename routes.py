@@ -49,7 +49,6 @@ def company():
 
 @radnici.route('/radnici/<pib>', methods=['POST', 'GET'])
 def open(pib=None):
-    print('open')
     if request.method == 'GET' or request.form['submit_button'] == 'open':
         flask_session['pib'] = pib
         workers = session.query(Worker).filter(Worker.company_pib == pib).all()
@@ -68,7 +67,6 @@ def open(pib=None):
 
 @radnici.route('/radnik_dodat', methods=['POST'])
 def new_worker():
-    print('new worker')
     pib = flask_session.get('pib')
     if request.method == 'POST':
         if request.form['new_worker'] == 'new_worker':
@@ -125,7 +123,6 @@ def new_worker():
 
 @radnici.route('/radnici', methods=['GET'])
 def update():
-    print('update')
     pib = flask_session.get('pib')
     workers = session.query(Worker).filter(Worker.company_pib == pib).all()
 
@@ -135,7 +132,6 @@ def update():
 @radnici.route('/radnici/delete/<worker_jmbg>', methods=['POST'])
 def delete(worker_jmbg=None):
     if request.method == "POST":
-        print('delete')
         worker_row_to_delete = session.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
         session.delete(worker_row_to_delete)
         session.commit()
@@ -144,14 +140,12 @@ def delete(worker_jmbg=None):
 
 @radnici.route('/radnici/edit/<worker_jmbg>', methods=['POST'])
 def edit(worker_jmbg=None):
-    print('edit')
     worker = session.query(Worker).filter(Worker.jmbg == worker_jmbg).one()
     return render_template('edit.html', worker_jmbg=worker_jmbg, worker=worker, pib=flask_session['pib'])
 
 
 @radnici.route('/radnici/save/<worker_jmbg>', methods=['POST', 'GET'])
 def save(worker_jmbg=None):
-    print(f'change {worker_jmbg}')
 
     new_jmbg = request.form.get('new_jmbg')
     new_name = request.form.get('new_name')
