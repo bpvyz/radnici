@@ -2,11 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png"/>
+    <link href="/static/css/dark-mode-switch-1.0.0/dark-mode.css" rel="stylesheet">
     <title>Radnik dodat!</title>
 </head>
-<body>
-<h1>Radnik dodat!</h1>
+<body style="background: var(--background-color);">
+
+<div class="custom-control custom-switch" style="display: none">
+  <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+  <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+</div>
+<script src="/static/css/dark-mode-switch-1.0.0/dark-mode-switch.min.js"></script>
+
+<h1 style="font-family: Roboto; color: var(--header-color);">Radnik dodat!</h1>
 <script>
     window.setTimeout(function () {
 

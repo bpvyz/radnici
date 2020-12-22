@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png"/>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href="/static/css/dark-mode-switch-1.0.0/dark-mode.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Greska</title>
 </head>
-<body>
-<h1>{{error_code}}</h1>
+<body style="background: var(--background-color);">
+
+<div class="custom-control custom-switch" style="display: none">
+  <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+  <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+</div>
+<script src="/static/css/dark-mode-switch-1.0.0/dark-mode-switch.min.js"></script>
+
+<h1 style="font-family: Roboto; color: var(--text-color)">{{error_code}}</h1>
 {% block javascript %}
 
 <script>
     window.setTimeout(function () {
 
         // Move to a new location or you can do something else
-        window.location.href = {
-        {
-            redirect_route | tojson | safe
-        }
-    }
-        ;
+        window.location.href = {{ redirect_route | tojson | safe }}
 
     }, 1500);
 

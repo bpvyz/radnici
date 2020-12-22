@@ -32,6 +32,8 @@
     }
 
     body {
+        background: var(--background-color);
+        color: var(--text-color);
         font-family: 'Roboto';
     }
 
@@ -43,7 +45,7 @@
     }
 
     td, th {
-        border: 1px solid #dddddd;
+        border: 1px solid #000000;
         text-align: left;
         padding: 8px;
         width: 1px;
@@ -51,16 +53,20 @@
     }
 
     th {
-        background: #dddddd;
+        background: var(--table-header);
     }
 
     tr:nth-child(even) {
-        background-color: #eee;
+        background-color: var(--even-row-color);
+    }
+
+    tr:nth-child(odd){
+        background-color: var(--odd-row-color);
     }
 
     .btn {
+        background-color: var(--aux-color);
         border: 2px solid black;
-        background-color: white;
         color: black;
         padding: 7px 28px;
         font-size: 16px;
@@ -68,22 +74,22 @@
         border-radius: 12px;
     }
 
-    .danger {
-        border-color: #800000;
-        color: #800000;
+    .change {
+        border-color: var(--change-color);
+        color: var(--change-color);
         font-weight: bold;
     }
 
-
-    .change {
-        border-color: #000f87;
-        color: #000f87;
+    .change:hover {
+        background: var(--change-color);
+        color: white;
         font-weight: bold;
     }
 
     .add {
-        border-color: #004e02;
-        color: #004e02;
+        background-color: var(--aux-color);
+        border-color: var(--add-color);
+        color: var(--add-color);
         font-weight: bold;
     }
 
@@ -93,17 +99,21 @@
         font-weight: bold;
     }
 
-    .change:hover {
-        background: #000f87;
-        color: white;
+    .danger {
+        background-color: var(--aux-color);
+        border-color: var(--danger-color);
+        color: var(--danger-color);
         font-weight: bold;
     }
-
 
     .danger:hover {
         background: #800000;
         color: white;
         font-weight: bold;
+    }
+
+    h2 {
+        color: var(--header-color);
     }
 
     a.back {
@@ -139,7 +149,10 @@
     }
 
     input {
+        border-color: var(--aux-border-color);
+        background-color: var(--aux-color);
         font-family: "Roboto";
+        color: var(--text-color);
         font-size: 1em;
     }
 
@@ -147,30 +160,25 @@
 
 <script defer type="text/javascript" src="{{ url_for('static', filename='js/sorttable.js') }}"></script>
 
-<script>
-
-    // function change(){
-    //     let date = prompt('Unesite datum isteka ugovora: ');
-    //     var button = document.getElementById('change_button')
-    //     console.log(date);
-    //     button.value = date
-    //     return date;
-    //
-    // }
-
-</script>
 
 
 <head>
     <meta charset="UTF-8">
+    <link href="/static/css/dark-mode-switch-1.0.0/dark-mode.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png"/>
     <title>{{company}}</title>
 
-    <a href="/" class="svg" style="width: 332px; height: 68px">
+    <a href="/" class="svg" style="width: 332px; height: 68px; display: inline-block">
         <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 332px; height: 68px">
         </object>
     </a>
+    <div class="custom-control custom-switch" style="display: inline-block">
+    <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+    <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+    </div>
+    <script src="/static/css/dark-mode-switch-1.0.0/dark-mode-switch.min.js"></script>
+
     <br>
     <a class="back" style="display:inline-block" href='/'>&#8249</a>
     <h3 style="display:inline-block; position: relative; left: 10px;">NAZAD</h3>
@@ -200,11 +208,11 @@
             <td id="buttons">
                 <form id="term_form" action="{{url_for('radnici.edit', worker_jmbg=worker.jmbg)}}" method="POST"
                       style="display:inline-block">
-                    <button id="change_button" class="btn ripple change"> Izmeni</button>
+                    <button id="change_button" class="btn ripple change">Izmeni</button>
                 </form>
                 <form style="display:inline-block;" action="{{url_for('radnici.delete', worker_jmbg=worker.jmbg)}}"
                       method="POST">
-                    <button class="btn ripple danger" id="delete_button"> Obriši</button>
+                    <button class="btn ripple danger" id="delete_button">Obriši</button>
                 </form>
             </td>
         </tr>
@@ -212,7 +220,7 @@
         <tfoot>
         <form id="worker_form" class="submit_worker" method="POST" action="{{url_for('radnici.new_worker')}}">
             <tr>
-                <td><input type="text" id="jmbg" name="jmbg"><br></td>
+                <td><input type="text" id="jmbg" name="jmbg" maxlength="13"><br></td>
                 <td><input type="text" id="full_name" name="full_name"><br></td>
                 <td><input type="text" id="start_date" name="start_date"><br></td>
                 <td><input type="text" id="termination_date" name="termination_date"><br></td>

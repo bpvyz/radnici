@@ -78,11 +78,23 @@ def new_worker():
             termination_date = request.form.get('termination_date')
 
             if start_date:
-                start_date_object = datetime.strptime(start_date, '%d/%m/%Y')
-                worker_start_date = start_date_object.strftime('%Y-%m-%d')
+                try:
+                    start_date_object = datetime.strptime(start_date, '%d/%m/%Y')
+                    worker_start_date = start_date_object.strftime('%Y-%m-%d')
+                except ValueError:
+                    session.rollback()
+                    rroute = '/radnici'
+                    err_code = 'Neispravan datum prijave!'
+                    return render_template('greska.html', error_code=err_code, redirect_route=rroute)
                 if termination_date:
-                    termination_date_object = datetime.strptime(termination_date, '%d/%m/%Y')
-                    worker_termination_date = termination_date_object.strftime('%Y-%m-%d')
+                    try:
+                        termination_date_object = datetime.strptime(termination_date, '%d/%m/%Y')
+                        worker_termination_date = termination_date_object.strftime('%Y-%m-%d')
+                    except ValueError:
+                        session.rollback()
+                        rroute = '/radnici'
+                        err_code = 'Neispravan datum odjave!'
+                        return render_template('greska.html', error_code=err_code, redirect_route=rroute)
                 else:
                     worker_termination_date = None
 
@@ -96,7 +108,8 @@ def new_worker():
                                         company_pib=pib)
                     session.add(new_worker)
                     session.flush()
-                except IntegrityError:
+                except IntegrityError as e:
+                    print(e._message())
                     session.rollback()
                     rroute = '/radnici'
                     err_code = 'Radnik sa ovim JMBG-om vec postoji!'
