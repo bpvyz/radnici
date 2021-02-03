@@ -1,7 +1,7 @@
 from app import create_app
 import sys
 import os
-from flask import Flask
+import webbrowser
 
 # application.config.update(SECRET_KEY=os.environ['SECRET_KEY'])
 
@@ -17,4 +17,5 @@ application.config.update(SECRET_KEY='test_key')
 
 
 if __name__ == "__main__":
+    webbrowser.open('http://127.0.0.1:5000/')
     application.run()
