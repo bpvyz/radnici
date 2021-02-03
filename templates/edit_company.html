@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<style>
+    /* Ripple effect */
+    .ripple {
+        background-position: center;
+        transition: background 0.8s, color 0.8s;
+    }
+
+    .ripple:hover {
+        background: #000000 radial-gradient(circle, transparent 1%, #ffffff 1%) center/15000%;
+    }
+
+    .ripple:active {
+        background-color: #ffffff;
+        background-size: 100%;
+        transition: background 0.8s;
+    }
+
+    .btn {
+        background-color: var(--aux-color);
+        border: 2px solid black;
+        color: black;
+        padding: 7px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 12px;
+    }
+
+    .change {
+        border-color: var(--change-color);
+        color: var(--change-color);
+        font-weight: bold;
+    }
+
+    .change:hover {
+        background: var(--change-color);
+        color: white;
+        font-weight: bold;
+    }
+
+    body {
+        background: var(--background-color);
+        color: var(--text-color);
+        font-family: 'Roboto';
+    }
+
+    h2 {
+        color: var(--header-color);
+    }
+
+    table {
+        table-layout: fixed;
+        display: block;
+        height: 700px;
+        overflow-y: scroll;
+    }
+
+    td, th {
+        border: 1px solid #000000;
+        text-align: left;
+        padding: 8px;
+        width: 1px;
+        white-space: nowrap;
+    }
+
+    th {
+        background: var(--table-header);
+    }
+
+    tr:nth-child(even) {
+        background-color: var(--even-row-color);
+    }
+
+    tr:nth-child(odd){
+        background-color: var(--odd-row-color);
+    }
+
+    a.back {
+        font-weight: bold;
+        color: black;
+        border: 2px solid black;
+        text-decoration: none;
+        padding: 4px 16px;
+        position: relative;
+        display: inline-block;
+        font-size: 28px;
+        border-radius: 12px;
+    }
+
+    a.back:hover {
+        background: #000000;
+        color: white;
+        font-weight: bold;
+    }
+
+    a.svg {
+        position: relative;
+        display: block;
+    }
+
+    a.svg:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    input {
+        border-color: var(--aux-border-color);
+        background-color: var(--aux-color);
+        font-family: "Roboto";
+        color: var(--text-color);
+        font-size: 1em;
+    }
+
+</style>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png"/>
+    <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href="/static/css/dark-mode-switch-1.0.0/dark-mode.css" rel="stylesheet">
+    <title>Izmena radnika</title>
+
+    <a href="/" class="svg" style="width: 332px; height: 68px; display: inline-block">
+        <object data="/static/logo.svg" type="image/svg+xml" class="logo" style="width: 332px; height: 68px">
+        </object>
+    </a>
+    <div class="custom-control custom-switch" style="display: inline-block">
+    <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+    <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+    </div>
+    <script src="/static/css/dark-mode-switch-1.0.0/dark-mode-switch.min.js"></script>
+
+    <br>
+    <a class="back" style="display:inline-block" href='/'>&#8249</a>
+    <h3 style="display:inline-block; position: relative; left: 10px;">NAZAD</h3>
+</head>
+<body>
+<h2>
+    Izmena firme:
+</h2>
+<br>
+<table>
+    <tr>
+        <th>IME FIRME</th>
+        <th>PIB</th>
+    </tr>
+    <tr>
+
+        <form id="edit_form" action="{{url_for('radnici.company_save', pib=pib1)}}" method="POST">
+            <td><input type="text" maxlength="9" id="new_pib" name="new_pib" value="{{ pib1 }}"></td>
+            <td><input type="text" id="new_name" name="new_name" value="{{ name }}"></td>
+            <td style="text-align: center">
+                <button class="btn ripple change" type="submit">Izmeni</button>
+            </td>
+
+        </form>
+    </tr>
+
+</table>
+
+</body>
+</html>

@@ -15,7 +15,7 @@ radnici = Blueprint('radnici', __name__)
 @radnici.route('/', methods=['GET'])
 def index():
     companies = session.query(Company).all()
-    flags = utils.get_flags(companies)
+    flags = utils.get_company_flags(companies)
     return render_template('index.html', list=[[n.name, n.pib, flag] for (n, flag) in zip(companies, flags)])
 
 
@@ -38,7 +38,7 @@ def company():
 
                 session.commit()
                 companies = session.query(Company).all()
-                flags = utils.get_flags(companies)
+                flags = utils.get_company_flags(companies)
                 return render_template('index.html',
                                        list=[[n.name, n.pib, flag] for (n, flag) in zip(companies, flags)])
             else:
@@ -53,11 +53,11 @@ def open(pib=None):
         flask_session['pib'] = pib
         workers = session.query(Worker).filter(Worker.company_pib == pib).all()
         company = session.query(Company).filter(Company.pib == pib).one()
-        return render_template('spisak.html', workers=[worker for worker in workers], company=company.name)
+        flags = utils.get_worker_flags(workers)
+        return render_template('spisak.html', workers=[[worker, flag] for (worker, flag) in zip(workers,flags)], company=company.name)
 
     elif request.form['submit_button'] == 'delete':
 
-        session.query(Worker).filter(Worker.company_pib == pib).delete()
         session.query(Company).filter(Company.pib == pib).delete()
 
         session.commit()
@@ -114,7 +114,12 @@ def new_worker():
                     return render_template('greska.html', error_code=err_code, redirect_route=rroute)
 
                 session.commit()
-                return render_template('dodat.html')
+                company = session.query(Company).filter(Company.pib == pib).one()
+                workers = session.query(Worker).filter(Worker.company_pib == pib).all()
+                flags = utils.get_worker_flags(workers)
+                return render_template('spisak.html',
+                                       workers=[[worker, flag] for (worker, flag) in zip(workers, flags)],
+                                       company=company.name)
             else:
                 rroute = '/radnici'
                 err_code = 'Neispravni podaci radnika!'
@@ -124,9 +129,12 @@ def new_worker():
 @radnici.route('/radnici', methods=['GET'])
 def update():
     pib = flask_session.get('pib')
+    company = session.query(Company).filter(Company.pib == pib).one()
     workers = session.query(Worker).filter(Worker.company_pib == pib).all()
-
-    return render_template('spisak.html', workers=[worker for worker in workers])
+    flags = utils.get_worker_flags(workers)
+    return render_template('spisak.html',
+                           workers=[[worker, flag] for (worker, flag) in zip(workers, flags)],
+                           company=company.name)
 
 
 @radnici.route('/radnici/delete/<worker_jmbg>', methods=['POST'])
@@ -137,6 +145,48 @@ def delete(worker_jmbg=None):
         session.commit()
         return redirect(url_for('radnici.update'))
 
+
+@radnici.route('/radnici/edit_company/<pib>', methods=['POST'])
+def edit_company(pib=None):
+    print('edit company')
+    company = session.query(Company).filter(Company.pib == pib).one()
+    return render_template('edit_company.html', pib1=company.pib, name=company.name)
+
+@radnici.route('/radnici/save_company/<pib>', methods=['POST', 'GET'])
+def company_save(pib=None):
+    print(f'change {pib}')
+
+    new_name = request.form.get('new_name')
+    new_pib = request.form.get('new_pib')
+
+    company_row_to_change = session.query(Company).filter(Company.pib == pib).one()
+    workers = session.query(Worker).filter(Worker.company_pib == pib).all()
+    for worker in workers:
+        print(worker.company_pib, new_pib)
+        print(worker.company_pib)
+
+    if new_name:
+        company_row_to_change.name = new_name
+
+    if new_pib:
+        company_row_to_change.pib = new_pib
+
+    try:
+
+        session.add(company_row_to_change, workers)
+        session.flush()
+
+    except IntegrityError as e:
+        print(e.__cause__)
+        session.rollback()
+        rroute = '/'
+        err_code = 'Firma sa ovim PIB-om vec postoji!'
+
+        return render_template('greska.html', error_code=err_code, redirect_route=rroute)
+
+    session.commit()
+
+    return redirect(url_for('radnici.index'))
 
 @radnici.route('/radnici/edit/<worker_jmbg>', methods=['POST'])
 def edit(worker_jmbg=None):

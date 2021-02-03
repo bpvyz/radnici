@@ -63,6 +63,18 @@
         border-radius: 12px;
     }
 
+    .change {
+        border-color: var(--change-color);
+        color: var(--change-color);
+        font-weight: bold;
+    }
+
+    .change:hover {
+        background: var(--change-color);
+        color: white;
+        font-weight: bold;
+    }
+
     .danger {
         background-color: var(--aux-color);
         border-color: var(--danger-color);
@@ -179,6 +191,10 @@
         <td id="buttons">
             <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1])}}" method="POST">
                 <button class="btn ripple add" type="submit" name="submit_button" value="open">Otvori</button>
+            </form>
+            <form id="term_form" action="{{url_for('radnici.edit_company', pib=each[1])}}" method="POST"
+                style="display:inline-block">
+                <button id="change_button" class="btn ripple change">Izmeni</button>
             </form>
             <form style="display:inline-block;" action="{{url_for('radnici.open', pib=each[1])}}" method="POST">
                 <button onclick="return confirm('Potvrdi brisanje firme! Ovo ce obrisati sve radnike firme!');"
