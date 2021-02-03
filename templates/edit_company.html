@@ -151,8 +151,8 @@
     <tr>
 
         <form id="edit_form" action="{{url_for('radnici.company_save', pib=pib1)}}" method="POST">
-            <td><input type="text" maxlength="9" id="new_pib" name="new_pib" value="{{ pib1 }}"></td>
             <td><input type="text" id="new_name" name="new_name" value="{{ name }}"></td>
+            <td><input type="text" maxlength="9" id="new_pib" name="new_pib" value="{{ pib1 }}"></td>
             <td style="text-align: center">
                 <button class="btn ripple change" type="submit">Izmeni</button>
             </td>
