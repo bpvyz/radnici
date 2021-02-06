@@ -213,7 +213,7 @@
             <td>{{ worker[0].jmbg }}</td>
             <td>{{ worker[0].full_name }}</td>
             <td>{{ worker[0].contract_start_date.strftime('%d/%m/%Y')}}</td>
-            <td>{{ worker[0].contract_termination_date.strftime('%d/%m/%Y') if worker.contract_termination_date != None
+            <td>{{ worker[0].contract_termination_date.strftime('%d/%m/%Y') if worker[0].contract_termination_date != None
                 else 'Neodređeno' }}
             </td>
             <td style="color: var(--flag-text-color); text-align: center;
